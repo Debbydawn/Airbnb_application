@@ -240,4 +240,26 @@ while True:
     
     
 ## Question C(Visualization)
+# the proportion of number of bedrooms of Airbnb listing using pie chart
+import matplotlib.pyplot as plt
 
+bedrooms_counts = loaded_data['bedrooms'].value_counts()
+
+plt.figure(figsize=(8, 8))  # Set the figure size to (width, height)
+plt.pie(bedrooms_counts.values, labels=bedrooms_counts.index)
+plt.axis('equal')  # Ensures the pie is drawn as a circle
+plt.tight_layout()  # Adjusts the spacing to prevent overlapping
+plt.title('Distribution of Bedrooms for AirBnB')
+
+# Create a legend with the corresponding labels and values
+legend_labels = []
+for label, count in zip(bedrooms_counts.index, bedrooms_counts.values):
+    legend_labels.append(f'{label}: {count}')
+
+plt.legend(legend_labels, loc='best')
+
+# Add a title to the legend
+legend_title = 'Bedrooms'
+plt.text(0.8, 1.1, legend_title, fontsize=12)
+
+plt.show()

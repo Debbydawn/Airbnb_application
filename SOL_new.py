@@ -72,28 +72,28 @@ def get_location_details():
                 # Append the row dictionary to the result list
                 result_rows.append(row_dict)
         
-    # Create a dataframe from the list of dictionaries
-    df = pd.DataFrame(result_rows)
-    return df 
-        
-    # working on the display format
-    df = load_csv_file(data,num_rows)
-    num_rows = 20
-    start_pos = 0
-    end_pos = min(start_pos + num_rows, len(df))
+        # Create a dataframe from the list of dictionaries
+        df = pd.DataFrame(result_rows)
+        return df 
 
-    while True:
-        # Display the current set of rows
-        print(df.iloc[start_pos:end_pos])
-        if end_pos >= len(df):
-            print("No more rows available.")
-            break
-        user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
-        if user_input == 'next':
-            start_pos += num_rows
-            end_pos = min(start_pos + num_rows, len(df))
-        elif user_input == 'quit':
-            break
+        # working on the display format
+        df = load_csv_file(data,num_rows)
+        num_rows = 20
+        start_pos = 0
+        end_pos = min(start_pos + num_rows, len(df))
+
+        while True:
+            # Display the current set of rows
+            print(df.iloc[start_pos:end_pos])
+            if end_pos >= len(df):
+                print("No more rows available.")
+                break
+            user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+            if user_input == 'next':
+                start_pos += num_rows
+                end_pos = min(start_pos + num_rows, len(df))
+            elif user_input == 'quit':
+                break
 
     except NameError:
         print(f"Couldn't find {location}. ")
@@ -148,10 +148,96 @@ while True:
     elif user_input == 'quit':
         break
 
-## Question 2(PANDAS)
+## Question B(PANDAS)
+# question B1
+
 import pandas as pd
 
 def load_pd_file():
-    r_file = pd.DataFrame(data)
-    return r_file.head()
-# load_pd_file()
+    try:
+        file_location = input('What is the location of the file you want to import from: ')
+        r_file = pd.read_csv(file_location)
+        print(f"\nFetching data...\nSucessfully loaded the {file_location} dataset. ")
+        return r_file
+
+    except IOError:
+            print(f"Couldn't read {file_location}. ")
+            
+# loaded_data = load_pd_file()
+
+
+
+# question B2
+def get_most_popular_amenity(data):
+    amenities = data['amenities'].tolist()  # Convert amenities column to a list
+    amenities_list = [amenity.split(',') for amenity in amenities]  # Split each string by commas to create lists of individual amenities
+    flattened_amenities = [item.strip() for sublist in amenities_list for item in sublist]  # Flatten the list of lists and remove leading/trailing whitespace
+    v_counts = pd.Series(flattened_amenities).value_counts().to_frame()  # Count the occurrence of each amenity
+    most_popular_amenity = v_counts.index[0]  # Get the most popular amenity (first index of the value counts)
+    most_popular_count= v_counts.iloc[0, 0]  # Get the count of the most popular amenity
+    return most_popular_amenity, most_popular_count
+
+# Assuming you have loaded the data into a DataFrame called 'loaded_data'
+most_popular_amenity, count = get_most_popular_amenity(loaded_data)
+print(f"The most popular amenity is {most_popular_amenity} with count of :",count )
+
+
+
+# question B3
+def averge_price_location():
+    # average price based on location
+    av_price = loaded_data.groupby('host_location')['price'].mean()
+    av_price = round(av_price,2)
+    # Create a dataframe from the list of dictionaries
+    df = pd.DataFrame(av_price)
+    return df
+
+df = averge_price_location()
+num_rows = 20
+start_pos = 0
+end_pos = min(start_pos + num_rows, len(df))
+
+while True:
+    # Display the current set of rows
+    print(df.iloc[start_pos:end_pos])
+    if end_pos >= len(df):
+        print("No more rows available.")
+        break
+    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+    if user_input == 'next':
+        start_pos += num_rows
+        end_pos = min(start_pos + num_rows, len(df))
+    elif user_input == 'quit':
+        break
+        
+
+# question B4        
+def average_review_location():
+    # average review scores rating by location
+    avg_review = loaded_data.groupby('host_location')['review_scores_rating'].mean()
+    avg_review = round(avg_review,2)
+    # Create a dataframe from the list of dictionaries
+    df = pd.DataFrame(avg_review)
+    return df
+
+df = average_review_location()
+num_rows = 20
+start_pos = 0
+end_pos = min(start_pos + num_rows, len(df))
+
+while True:
+    # Display the current set of rows
+    print(df.iloc[start_pos:end_pos])
+    if end_pos >= len(df):
+        print("No more rows available.")
+        break
+    user_input = input("Enter 'next' to retrieve the next 20 rows, or 'quit' to exit: ")
+    if user_input == 'next':
+        start_pos += num_rows
+        end_pos = min(start_pos + num_rows, len(df))
+    elif user_input == 'quit':
+        break
+    
+    
+## Question C(Visualization)
+

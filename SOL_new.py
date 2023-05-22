@@ -51,26 +51,26 @@ def get_location_details():
     import pandas as pd
     try:
         result_rows =[]
-    location = input("Enter the host location: ").capitalize()
-    # Loop through each row in the CSV file
-    for row in data:
-        # Check if the value in the 'host_id' column is 'h_id'
-        if row[5] == location:
-            value1 = row[1]
-            value2 = row[13]
-            value3 = row[20]
-            value4 = row[21]
-            value5 = row[22]
-            # Create a dictionary for the row
-            row_dict = {
-                "Name of Listing": value1,
-                "Property Type": value2,
-                "Price": value3,
-                "Minimum Night": value4,
-                "Maximum Night": value5
-            }
-            # Append the row dictionary to the result list
-            result_rows.append(row_dict)
+        location = input("Enter the host location: ").capitalize()
+        # Loop through each row in the CSV file
+        for row in data:
+            # Check if the value in the 'host_id' column is 'h_id'
+            if row[5] == location:
+                value1 = row[1]
+                value2 = row[13]
+                value3 = row[20]
+                value4 = row[21]
+                value5 = row[22]
+                # Create a dictionary for the row
+                row_dict = {
+                    "Name of Listing": value1,
+                    "Property Type": value2,
+                    "Price": value3,
+                    "Minimum Night": value4,
+                    "Maximum Night": value5
+                }
+                # Append the row dictionary to the result list
+                result_rows.append(row_dict)
         
     # Create a dataframe from the list of dictionaries
     df = pd.DataFrame(result_rows)
@@ -154,4 +154,4 @@ import pandas as pd
 def load_pd_file():
     r_file = pd.DataFrame(data)
     return r_file.head()
-load_pd_file()
+# load_pd_file()

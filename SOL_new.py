@@ -21,27 +21,27 @@ file_location = input("Enter file location: ")
 data = load_csv_file(file_location)
 
 def get_host_details():
-        # Create an empty list to store the rows that match the criteria
-        result_rows = []
-        h_id = input("Enter the host id: ")
-        # Loop through each row in the CSV file
-        for row in data:
-            # Check if the value in the 'Gender' column is 'Female'
-            if row[0] == h_id:
-                value1 = row[1]
-                value2 = row[2]
-                value3 = row[3]
-                value4 = row[4]
-                value5 = row[5]
-                # If it is, add the entire row to the list of matching rows
-                result_rows.append(row)
-        # Print the matching rows
-        print("The Host Id number {} details are :\n".format(h_id))
-        print("The name of listing is :", value1)
-        print("The description is:", value2)
-        print("The host name is :", value3)
-        print("The date created by host: ", value4)
-        print("The host location is: ", value5) 
+    # Create an empty list to store the rows that match the criteria
+    result_rows = []
+    h_id = input("Enter the host id: ")
+    # Loop through each row in the CSV file
+    for row in data:
+        # Check if the value in the 'Gender' column is 'Female'
+        if row[0] == h_id:
+            value1 = row[1]
+            value2 = row[2]
+            value3 = row[3]
+            value4 = row[4]
+            value5 = row[5]
+            # If it is, add the entire row to the list of matching rows
+            result_rows.append(row)
+    # Print the matching rows
+    print("The Host Id number {} details are :\n".format(h_id))
+    print("The name of listing is :", value1)
+    print("The description is:", value2)
+    print("The host name is :", value3)
+    print("The date created by host: ", value4)
+    print("The host location is: ", value5) 
 
 # Call the function
 # get_host_details()
@@ -102,32 +102,33 @@ def get_location_details():
 
 
 def find_properties_by_location():
-        # Create an empty list to store the rows that match the criteria
-        result_rows1 = []
-        p_type = input("Enter the property type: ")
-        # Loop through each row in the CSV file
-        for row in data:
-            # Check if the value in the 'host_id' column is equal to 'p_type'
-            if row[13] == p_type:
-                value1 = row[14]
-                value2 = row[15]
-                value3 = row[16]
-                value4 = row[17]
-                value5 = row[18]
-               # Create a dictionary for the row
-                row_dict1 = {
-                    "The room type ": value1,
-                    "It accommodates ": value2,
-                    "The bathroom is/are": value3,
-                    "The bedrooms is/are": value4,
-                    "The bed is/are": value5
-                }
-                # Append the row dictionary to the result list
-                result_rows1.append(row_dict1)
+    import pandas as pd
+    # Create an empty list to store the rows that match the criteria
+    result_rows1 = []
+    p_type = input("Enter the property type: ")
+    # Loop through each row in the CSV file
+    for row in data:
+        # Check if the value in the 'host_id' column is equal to 'p_type'
+        if row[13] == p_type:
+            value1 = row[14]
+            value2 = row[15]
+            value3 = row[16]
+            value4 = row[17]
+            value5 = row[18]
+            # Create a dictionary for the row
+            row_dict1 = {
+                "The room type ": value1,
+                "It accommodates ": value2,
+                "The bathroom is/are": value3,
+                "The bedrooms is/are": value4,
+                "The bed is/are": value5
+            }
+            # Append the row dictionary to the result list
+            result_rows1.append(row_dict1)
   
-        # Create a dataframe from the list of dictionaries
-        df = pd.DataFrame(result_rows1)
-        return df 
+    # Create a dataframe from the list of dictionaries
+    df = pd.DataFrame(result_rows1)
+    return df 
     
     
 df = find_properties_by_location()
@@ -163,13 +164,13 @@ def load_pd_file():
     except IOError:
             print(f"Couldn't read {file_location}. ")
             
-# loaded_data = load_pd_file()
+loaded_data = load_pd_file()
 
 
 
 # question B2
-def get_most_popular_amenity(data):
-    amenities = data['amenities'].tolist()  # Convert amenities column to a list
+def get_most_popular_amenity(loaded_data):
+    amenities = loaded_data['amenities'].tolist()  # Convert amenities column to a list
     amenities_list = [amenity.split(',') for amenity in amenities]  # Split each string by commas to create lists of individual amenities
     flattened_amenities = [item.strip() for sublist in amenities_list for item in sublist]  # Flatten the list of lists and remove leading/trailing whitespace
     v_counts = pd.Series(flattened_amenities).value_counts().to_frame()  # Count the occurrence of each amenity
@@ -243,23 +244,76 @@ while True:
 # the proportion of number of bedrooms of Airbnb listing using pie chart
 import matplotlib.pyplot as plt
 
-bedrooms_counts = loaded_data['bedrooms'].value_counts()
+def plot_bedroom_distribution(loaded_data):
+    bedrooms_counts = loaded_data['bedrooms'].value_counts()
 
-plt.figure(figsize=(8, 8))  # Set the figure size to (width, height)
-plt.pie(bedrooms_counts.values, labels=bedrooms_counts.index)
-plt.axis('equal')  # Ensures the pie is drawn as a circle
-plt.tight_layout()  # Adjusts the spacing to prevent overlapping
-plt.title('Distribution of Bedrooms for AirBnB')
+    plt.figure(figsize=(8, 8))
+    plt.pie(bedrooms_counts.values, labels=bedrooms_counts.index)
+    plt.axis('equal')
+    plt.tight_layout()
+    plt.title('Distribution of Bedrooms for AirBnB')
 
-# Create a legend with the corresponding labels and values
-legend_labels = []
-for label, count in zip(bedrooms_counts.index, bedrooms_counts.values):
-    legend_labels.append(f'{label}: {count}')
+    legend_labels = []
+    for label, count in zip(bedrooms_counts.index, bedrooms_counts.values):
+        legend_labels.append(f'{label}: {count}')
 
-plt.legend(legend_labels, loc='best')
+    plt.legend(legend_labels, loc='best')
 
-# Add a title to the legend
-legend_title = 'Bedrooms'
-plt.text(0.8, 1.1, legend_title, fontsize=12)
+    legend_title = 'Bedrooms'
+    plt.text(0.8, 1.1, legend_title, fontsize=12)
 
-plt.show()
+    plt.show()
+
+# plot_bedroom_distribution(loaded_data)
+
+
+# Display the number of listings for each room type using bar chart
+def plot_room_type_counts(loaded_data):
+    # Calculate the counts of each room type
+    room_type_counts = loaded_data['room_type'].value_counts()
+
+    # Create the bar chart
+    plt.figure(figsize=(8, 6))
+    bars = plt.bar(room_type_counts.index, room_type_counts.values)
+
+    # Set labels and title
+    plt.xlabel('Room Type')
+    plt.ylabel('Count')
+    plt.title('Number of listings for each room type')
+    
+    # Add labels to the bars
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2, height,
+                 height, ha='center', va='bottom')
+
+
+    # Show the plot
+    plt.show()
+    
+# plot_room_type_counts(loaded_data)
+
+
+# Display the relationship between accommodates and price using scatter plot
+def plot_scatter(loaded_data):
+    x = loaded_data['accommodates']
+    y = loaded_data['price']
+
+    # Create a scatter plot
+    plt.scatter(x, y)
+
+    # Add labels and title
+    plt.xlabel('Accommodates')
+    plt.ylabel('Price')
+    plt.title('Relationship between Accommodates and Price')
+
+    # Show the plot
+    plt.show()
+
+# Usage
+# plot_scatter(loaded_data)
+
+
+
+# Display Airbnb prices from 2019 - 2022 with line chart using subplots (one year per plot)
+def plot_subplot():

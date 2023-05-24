@@ -316,4 +316,48 @@ def plot_scatter(loaded_data):
 
 
 # Display Airbnb prices from 2019 - 2022 with line chart using subplots (one year per plot)
-def plot_subplot():
+def subplot_airbnb_prices(data):
+    # Extract the relevant columns
+    new_data = data[['host_since', 'price']]
+    new_data = new_data.rename(columns={'host_since': 'Year'})
+    
+    # Convert 'Year' column to datetime
+    new_data['Year'] = pd.to_datetime(new_data['Year'])
+    
+    # Extract the year from the 'Year' column
+    new_data['Year'] = new_data['Year'].dt.year
+    
+    # Perform multiple slicings based on yearly periods
+    year_2019 = new_data[new_data['Year'] == 2019]
+    year_2020 = new_data[new_data['Year'] == 2020]
+    year_2021 = new_data[new_data['Year'] == 2021]
+    year_2022 = new_data[new_data['Year'] == 2022]
+    
+    # Create subplots
+    fig, axs = plt.subplots(2, 2, figsize=(12, 8), sharey=True)
+
+    # Plot line graph for Year 2019
+    axs[0, 0].plot(year_2019['price'])
+    axs[0, 0].set_title('Year 2019')
+
+    # Plot line graph for Year 2020
+    axs[0, 1].plot(year_2020['price'])
+    axs[0, 1].set_title('Year 2020')
+
+    # Plot line graph for Year 2021
+    axs[1, 0].plot(year_2021['price'])
+    axs[1, 0].set_title('Year 2021')
+
+    # Plot line graph for Year 2022
+    axs[1, 1].plot(year_2022['price'])
+    axs[1, 1].set_title('Year 2022')
+
+    # Adjust spacing between subplots
+    fig.tight_layout()
+    fig.suptitle('Subplots of price for years 2019 to 2022')
+    plt.subplots_adjust(top=0.9)
+    # Show the plot
+    plt.show()
+
+# Usage:
+# subplot_airbnb_prices(loaded_data)

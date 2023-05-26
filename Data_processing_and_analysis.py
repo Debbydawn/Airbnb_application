@@ -1,6 +1,6 @@
 import csv
 
-ef load_csv_file(file_location):
+def load_csv_file(file_location):
     try:
         airbnb_data = []
         with open(file_location, 'r', encoding='utf-8') as file:

@@ -1,4 +1,4 @@
-def dawn_airbnb():
+def dawn_airbnb_menu():
     print("Welcome to Dawn Airbnb\nWhat is your name?")
     username = input("Please enter your desired name: ")
     username = username.upper()
@@ -49,7 +49,7 @@ def dawn_airbnb():
             elif choice == 5:
                 # Perform option 5
                 print("Option 5 selected.")
-                load_pd_file()
+                load = load_pd_file()
                 
             elif choice == 6:
                 # Perform option 6
@@ -105,3 +105,54 @@ def dawn_airbnb():
         if continue_choice.lower() != 'yes':
             print("Exiting...\nExited")
             break
+
+            
+
+import csv
+
+def load_csv_file(file_location):
+    try:
+        airbnb_data = []
+        with open(file_location, 'r', encoding='utf-8') as file:
+            # Construct the csv reader object from the file object
+            reader = csv.reader(file)
+            # Skip the header row
+            next(reader)
+            for line in reader:
+                airbnb_data.append(line)
+            print(f"\nFetching data...\nSucessfully loaded the {file_location} dataset. ")
+            # Return the reader object
+            return airbnb_data
+    except csv.Error:
+        print(f"Invalid CSV file: {file_path}")
+    except FileNotFoundError:
+        print(f"File not found: {file_location}")
+    except IOError:
+        print(f"Couldn't read {file_location}. ")
+    
+       
+    
+# file_location = input("Enter file location: ")
+# data = load_csv_file(file_location)
+
+
+
+import pandas as pd
+
+def load_pd_file():
+    try:
+        data_location = input('What is the location of the file you want to import from: ')
+        r_file = pd.read_csv(data_location)
+        print(f"\nFetching data...\nSuccessfully loaded the {data_location} dataset.")
+        return r_file
+
+    except pd.errors.EmptyDataError:
+        print("The file is empty.")
+    except pd.errors.ParserError:
+        print("An error occurred while parsing the file.")
+    except pd.errors.DtypeWarning:
+        print("Warning: Data type mismatch.")
+    except OSError:
+        print(f"Couldn't read {data_location}.")
+
+# loaded_data = load_pd_file()

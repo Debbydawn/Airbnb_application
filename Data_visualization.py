@@ -2,6 +2,8 @@
 # the proportion of number of bedrooms of Airbnb listing using pie chart
 import matplotlib.pyplot as plt
 
+from Data_loading_and_user_code import load_pd_file
+
 def plot_bedroom_distribution(loaded_data):
     bedrooms_counts = loaded_data['bedrooms'].value_counts()
 
@@ -22,7 +24,7 @@ def plot_bedroom_distribution(loaded_data):
 
     plt.show()
 
-# plot_bedroom_distribution(loaded_data)
+
 
 
 # Display the number of listings for each room type using bar chart
@@ -49,7 +51,7 @@ def plot_room_type_counts(loaded_data):
     # Show the plot
     plt.show()
     
-# plot_room_type_counts(loaded_data)
+
 
 
 # Display the relationship between accommodates and price using scatter plot
@@ -68,15 +70,15 @@ def plot_scatter(loaded_data):
     # Show the plot
     plt.show()
 
-# Usage
-# plot_scatter(loaded_data)
+
 
 
 
 # Display Airbnb prices from 2019 - 2022 with line chart using subplots (one year per plot)
-def subplot_airbnb_prices(data):
+def subplot_airbnb_prices(loaded_data):
+    import pandas as pd
     # Extract the relevant columns
-    new_data = data[['host_since', 'price']]
+    new_data = loaded_data[['host_since', 'price']]
     new_data = new_data.rename(columns={'host_since': 'Year'})
     
     # Convert 'Year' column to datetime
@@ -117,5 +119,4 @@ def subplot_airbnb_prices(data):
     # Show the plot
     plt.show()
 
-# Usage:
-# subplot_airbnb_prices(loaded_data)
+

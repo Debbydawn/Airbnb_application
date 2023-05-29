@@ -1,31 +1,8 @@
-# import csv
+from Data_loading_and_user_code import load_csv_file
 
-# def load_csv_file(file_location):
-#     try:
-#         airbnb_data = []
-#         with open(file_location, 'r', encoding='utf-8') as file:
-#             # Construct the csv reader object from the file object
-#             reader = csv.reader(file)
-#             # Skip the header row
-#             next(reader)
-#             for line in reader:
-#                 airbnb_data.append(line)
-#             print(f"\nFetching data...\nSucessfully loaded the {file_location} dataset. ")
-#             # Return the reader object
-#             return airbnb_data
-#     except csv.Error:
-#         print(f"Invalid CSV file: {file_path}")
-#     except FileNotFoundError:
-#         print(f"File not found: {file_location}")
-#     except IOError:
-#         print(f"Couldn't read {file_location}. ")
-    
-       
-    
-# file_location = input("Enter file location: ")
-# data = load_csv_file(file_location)
 
-def get_host_details():
+
+def get_host_details(data):
     # Create an empty list to store the rows that match the criteria
     result_rows = []
     while True:
@@ -55,28 +32,23 @@ def get_host_details():
             return
         except ValueError:
             print("Invalid input. Please enter an integer.")
+            
+            
+            
+import pandas as pd
 
-# Call the function
-# get_host_details()
-
-
-def get_location_details():
-
-    # Assuming you have loaded the data into a list called 'data'
+def get_location_details(data):
     try:
         result_rows = []
         location = input("Enter the host location: ").capitalize()
 
-        # Loop through each row in the list 'data'
         for row in data:
-            # Check if the value in the 'host_id' column is 'location'
             if row[5] == location:
                 value1 = row[1]
                 value2 = row[13]
                 value3 = row[20]
                 value4 = row[21]
                 value5 = row[22]
-                # Create a dictionary for the row
                 row_dict = {
                     "Name of Listing": value1,
                     "Property Type": value2,
@@ -84,10 +56,8 @@ def get_location_details():
                     "Minimum Night": value4,
                     "Maximum Night": value5
                 }
-                # Append the row dictionary to the result list
                 result_rows.append(row_dict)
 
-        # Create a DataFrame from the list of dictionaries
         df = pd.DataFrame(result_rows)
 
         if not df.empty:
@@ -96,7 +66,6 @@ def get_location_details():
             end_pos = min(start_pos + num_rows, len(df))
 
             while True:
-                # Display the current set of rows
                 print(df.iloc[start_pos:end_pos])
 
                 if end_pos >= len(df):
@@ -113,11 +82,11 @@ def get_location_details():
     except NameError:
         print(f"Couldn't find {location}. ")
 
-# get_location_details()
 
 
 
-def find_properties_by_location():
+
+def find_properties_by_location(data):
     try:
         # Create an empty list to store the rows that match the criteria
         result_rows = []
@@ -182,33 +151,12 @@ def find_properties_by_location():
             elif user_input == 'quit':
                 break
 
-# find_properties_by_location()
-
-## Question B(PANDAS)
-# question B1
-
-# import pandas as pd
-
-# def load_pd_file():
-#     try:
-#         file_location = input('What is the location of the file you want to import from: ')
-#         r_file = pd.read_csv(file_location)
-#         print(f"\nFetching data...\nSuccessfully loaded the {file_location} dataset.")
-#         return r_file
-
-#     except pd.errors.EmptyDataError:
-#         print("The file is empty.")
-#     except pd.errors.ParserError:
-#         print("An error occurred while parsing the file.")
-#     except pd.errors.DtypeWarning:
-#         print("Warning: Data type mismatch.")
-#     except OSError:
-#         print(f"Couldn't read {file_location}.")
-
-# loaded_data = load_pd_file()
-
 
 # question B2
+
+from Data_loading_and_user_code import load_pd_file
+
+
 def get_most_popular_amenity(loaded_data):
 
     # Assuming you have loaded the data into a DataFrame called 'loaded_data'
@@ -220,11 +168,10 @@ def get_most_popular_amenity(loaded_data):
 
     print(f"The most popular amenity is '{most_popular_amenity}' with a count of {most_popular_count}.")
     
-# get_most_popular_amenity(loaded_data)
 
 
 # question B3
-def average_price_location():
+def average_price_location(loaded_data):
 
     # Assuming you have loaded the data into a DataFrame called 'loaded_data'
     try:
@@ -257,11 +204,9 @@ def average_price_location():
         print("An error occurred:", str(e))
         
         
-# average_price_location()
-
 
 # question B4        
-def average_review_location():
+def average_review_location(loaded_data):
 
     # Assuming you have loaded the data into a DataFrame called 'loaded_data'
     try:
@@ -294,6 +239,6 @@ def average_review_location():
         print("An error occurred:", str(e))
         
         
-# average_review_location()
+
 
     

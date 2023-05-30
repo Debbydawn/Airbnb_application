@@ -1,7 +1,5 @@
 from Data_loading_and_user_code import load_csv_file
 
-
-
 def get_host_details(data):
     # Create an empty list to store the rows that match the criteria
     result_rows = []
